@@ -7,8 +7,10 @@ import lk.ijse.gdse71.backend.repository.CustomerRepository;
 import lk.ijse.gdse71.backend.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -44,5 +46,24 @@ public class CustomerServiceImpl implements CustomerService {
         }else{
             throw new ResourceNotFoundException("This Customer does not exist.");
         }
+    }
+
+    @Override
+    public void deleteCustomer(Integer id) {
+       Optional<Customer> customer = customerRepository.findById(id);
+       if (customer.isPresent()) {
+           customerRepository.deleteById(id);
+       }else{
+           throw new ResourceNotFoundException("This Customer does not exist.");
+       }
+    }
+
+    @Override
+    public List<CustomerDTO> getAllCustomers() {
+        List<Customer> customers = customerRepository.findAll();
+        if(customers.isEmpty()){
+            throw new ResourceNotFoundException("This Customer does not exist.");
+        }
+        return modelMapper.map(customers, new TypeToken<List<CustomerDTO>>(){}.getType());
     }
 }
