@@ -8,19 +8,17 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-
-
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Orders {
+public class OrderDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Double totalAmount;
-    private Date date;
+    private Integer qtyOnHand;
+    private Double price;
 
-    private Integer customerId;
+    private Integer orderId;
+    private Integer itemId;
 }
