@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class CustomerServiceImpl implements CustomerService {
@@ -24,6 +26,23 @@ public class CustomerServiceImpl implements CustomerService {
             customerRepository.save(modelMapper.map(customerDTO, Customer.class));
         }else{
             throw new ResourceNotFoundException("This Customer already exists.");
+        }
+    }
+
+    @Override
+    public void updateCustomer(CustomerDTO customerDTO) {
+        Optional<Customer> customer = customerRepository.findById(customerDTO.getId());
+        if (customer.isPresent()) {
+            Customer existingCustomer = customer.get();
+            existingCustomer.setName(customerDTO.getName());
+            existingCustomer.setAddress(customerDTO.getAddress());
+            existingCustomer.setNic(customerDTO.getNic());
+            existingCustomer.setPhone(customerDTO.getPhone());
+            existingCustomer.setEmail(customerDTO.getEmail());
+
+            customerRepository.save(existingCustomer);
+        }else{
+            throw new ResourceNotFoundException("This Customer does not exist.");
         }
     }
 }

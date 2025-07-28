@@ -22,7 +22,13 @@ public class CustomerController {
     @PostMapping("saveCustomer")
     public ResponseEntity<APIResponse> saveCustomer(@RequestBody CustomerDTO customerDTO) {
         customerService.saveCustomer(customerDTO);
-        return new ResponseEntity<>(new APIResponse(201,"Saved Successfully" , true), HttpStatus.CREATED);
+        return new ResponseEntity<>(new APIResponse(201,"Customer Saved Successfully" , true), HttpStatus.CREATED);
+    }
+
+    @PutMapping("updateCustomer")
+    public ResponseEntity<APIResponse> updateCustomer(@RequestBody CustomerDTO customerDTO) {
+        customerService.updateCustomer(customerDTO);
+        return new ResponseEntity<>(new APIResponse(200,"Customer Updated Successfully" , true), HttpStatus.OK);
     }
 
 
