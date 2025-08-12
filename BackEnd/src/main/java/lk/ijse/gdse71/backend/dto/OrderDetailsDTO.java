@@ -14,6 +14,5 @@ public class OrderDetailsDTO {
     private Integer qtyOnHand;
     private Double price;
 
-    private Integer orderId;
     private Integer itemId;
 }
