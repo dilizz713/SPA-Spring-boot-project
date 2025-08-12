@@ -18,4 +18,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<APIResponse> resourceNotFound(ResourceNotFoundException e) {
         return new ResponseEntity<>(new APIResponse(404, e.getMessage() ,null ), HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(ResourceAlreadyExists.class)
+    public ResponseEntity<APIResponse> resourceAlreadyExists(ResourceAlreadyExists e) {
+        return new ResponseEntity<>(new APIResponse(409, e.getMessage() ,null ), HttpStatus.CONFLICT);
+    }
 }

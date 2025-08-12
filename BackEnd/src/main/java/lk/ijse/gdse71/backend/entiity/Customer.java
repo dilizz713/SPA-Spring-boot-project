@@ -1,12 +1,12 @@
 package lk.ijse.gdse71.backend.entiity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.query.Order;
+
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -21,4 +21,7 @@ public class Customer {
     private String nic;
     private String phone;
     private String email;
+
+    @OneToMany(mappedBy = "customer" , cascade = CascadeType.ALL)
+    private List<Orders> orders;
 }

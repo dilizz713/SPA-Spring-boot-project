@@ -2,6 +2,7 @@ package lk.ijse.gdse71.backend.service.impl;
 
 import lk.ijse.gdse71.backend.dto.CustomerDTO;
 import lk.ijse.gdse71.backend.entiity.Customer;
+import lk.ijse.gdse71.backend.exception.ResourceAlreadyExists;
 import lk.ijse.gdse71.backend.exception.ResourceNotFoundException;
 import lk.ijse.gdse71.backend.repository.CustomerRepository;
 import lk.ijse.gdse71.backend.service.CustomerService;
@@ -27,7 +28,7 @@ public class CustomerServiceImpl implements CustomerService {
         if (customer == null) {
             customerRepository.save(modelMapper.map(customerDTO, Customer.class));
         }else{
-            throw new ResourceNotFoundException("This Customer already exists.");
+            throw new ResourceAlreadyExists("This Customer already exists.");
         }
     }
 

@@ -1,12 +1,10 @@
 package lk.ijse.gdse71.backend.entiity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 
 @Entity
 @AllArgsConstructor
@@ -19,6 +17,11 @@ public class OrderDetails {
     private Integer qtyOnHand;
     private Double price;
 
-    private Integer orderId;
-    private Integer itemId;
+    @ManyToOne
+    @JoinColumn(name = "item_id")
+    private Item item;
+
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Orders order;
 }
