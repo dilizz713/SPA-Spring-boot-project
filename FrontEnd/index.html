@@ -5,57 +5,398 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>POS System</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-<section class="login">
-    <div class="popup-box">
-        <div class="left-panel">
-            <h2 class="fw-bold text-center">POS<br>SYSTEM</h2>
-        </div>
-        <div class="right-panel">
-            <h4 class="text-center mb-4">Login</h4>
-            <form id="login-form">
-                <label for="username" class="form-label">User Name</label>
-                <input type="text" class="form-control" id="username">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark header">
+    <div class="container-fluid">
+        <a class="navbar-brand fw-bold" href="#">POS SYSTEM</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarButtons" aria-controls="navbarButtons" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-                <label for="password" class="form-label">Password</label>
-                <div class="input-group mb-3">
-                    <input type="password" class="form-control" id="password">
-                    <button class="btn btn-outline-light show-btn" type="button" id="togglePassword">Show</button>
-                </div>
-
-                <button type="submit" class="btn login-btn w-50">Login</button>
-            </form>
+        <div class="collapse navbar-collapse" id="navbarButtons">
+            <div class="ms-auto d-flex flex-wrap gap-2">
+                <button class="btn btn-outline-light" id="nav-home">
+                    <i class="bi bi-house-door-fill me-1"></i> Home
+                </button>
+                <button class="btn btn-outline-light"  id="nav-customer">
+                    <i class="bi bi-person-lines-fill me-1"></i> Customer
+                </button>
+                <button class="btn btn-outline-light"  id="nav-item">
+                    <i class="bi bi-box-seam me-1"></i> Items
+                </button>
+                <button class="btn btn-outline-light" id="nav-order">
+                    <i class="bi bi-cart-check-fill me-1"></i> Place Order
+                </button>
+                <button class="btn btn-outline-light" id="logout-btn">
+                    <i class="bi bi-box-arrow-right me-1"></i> Logout
+                </button>
+                <button class="btn btn-outline-light" id="nav-add-user">
+                    <i class="bi bi-person-plus-fill me-1"></i> Add User
+                </button>
+            </div>
         </div>
     </div>
-</section>
+</nav>
 
+
+<div class="container mt-5" id="dashboard-content">
+    <div class="d-flex justify-content-between align-items-center mb-4 topic-div">
+        <div class="welcome">👋 Welcome <strong>Admin</strong>!</div>
+        <div class="text-muted fs-5"><i class="bi bi-calendar3"></i> <span id="todayDate"></span></div>
+    </div>
+
+    <div class="row g-4 cards-div boxes" >
+        <div class="col-8 col-sm-8 col-md-8 col-lg-4 col-xl-4 col-xxl-4">
+            <div class="card text-white bg-primary p-4">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h4>Total Customers</h4>
+                        <h2 id="total-customers"></h2>
+                    </div>
+                    <i class="bi bi-people-fill"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-8 col-sm-8 col-md-8 col-lg-4 col-xl-4 col-xxl-4">
+            <div class="card text-white bg-success p-4">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h4>Total Items</h4>
+                        <h2 id="total-items"></h2>
+                    </div>
+                    <i class="bi bi-boxes"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-8 col-sm-8 col-md-8 col-lg-4 col-xl-4 col-xxl-4">
+            <div class="card text-white bg-warning p-4">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h4>Today's Orders</h4>
+                        <h2 id="today-orders"></h2>
+                    </div>
+                    <i class="bi bi-cart-check-fill"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container" id="customer-content">
+    <div class="main-content">
+        <div id="errorAlert" class="alert alert-danger d-none" role="alert"></div>
+
+        <!-------------------------------------- Customer Form ---------------------------------->
+        <form class="mb-5" id="customerForm">
+            <div class="row mb-3">
+                <div class="col-0 col-sm-0 col-md-0 col-lg-3 col-xl-3 col-xxl-3"><label for="name" class="form-label">Name</label></div>
+                <div class="col-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9"><input type="text" class="form-control" id="name"></div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-0 col-sm-0 col-md-0 col-lg-3 col-xl-3 col-xxl-3"><label for="address" class="form-label">Address</label></div>
+                <div class="col-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9"><input type="text" class="form-control" id="address"></div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-0 col-sm-0 col-md-0 col-lg-3 col-xl-3 col-xxl-3"><label for="nic" class="form-label">NIC</label></div>
+                <div class="col-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9"><input type="text" class="form-control" id="nic"></div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-0 col-sm-0 col-md-0 col-lg-3 col-xl-3 col-xxl-3"><label for="mobile" class="form-label">Contact Number</label></div>
+                <div class="col-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9"><input type="text" class="form-control" id="mobile"></div>
+            </div>
+            <div class="row mb-4">
+                <div class="col-0 col-sm-0 col-md-0 col-lg-3 col-xl-3 col-xxl-3"><label for="email" class="form-label">Email</label></div>
+                <div class="col-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9"><input type="email" class="form-control" id="email"></div>
+            </div>
+
+            <div class="d-flex justify-content-center gap-3">
+                <button type="button" class="btn btn-save" id="customer-save">Save</button>
+                <button type="button" class="btn btn-update" id="customer-update" >Update</button>
+                <button type="reset" class="btn btn-reset" id="customer-reset">Reset</button>
+            </div>
+        </form>
+
+        <div class="mb-3">
+            <input type="text" id="customer-search" class="form-control" placeholder="Search by Name, NIC or Email">
+        </div>
+
+        <!-------------------------------------------CUSTOMER TABLE------------------------------------>
+        <div class="table-responsive">
+            <table class="table table-bordered text-center">
+                <thead class="table-dark">
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">NIC</th>
+                    <th scope="col">Contact</th>
+                    <th scope="col">Email</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+                </thead>
+                <tbody id="customer-tbody">
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<div class="container" id="item-content">
+    <div class="main-content">
+        <h5 class="text-warning fw-bold mb-4" id="item-id">1</h5>
+
+        <!-------------------------------------- Item Form ---------------------------------->
+        <form class="mb-5">
+            <div class="row mb-3">
+                <div class="col-0 col-sm-0 col-md-0 col-lg-3 col-xl-3 col-xxl-3"><label for="item-name" class="form-label">Item Name</label></div>
+                <div class="col-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9"><input type="text" id="item-name" class="form-control"></div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-0 col-sm-0 col-md-0 col-lg-3 col-xl-3 col-xxl-3"><label for="price" class="form-label">Price</label></div>
+                <div class="col-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9"><input type="text" id="price" class="form-control"></div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-0 col-sm-0 col-md-0 col-lg-3 col-xl-3 col-xxl-3"><label for="qty" class="form-label">Quantity</label></div>
+                <div class="col-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9"><input type="text" id="qty" class="form-control"></div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-0 col-sm-0 col-md-0 col-lg-3 col-xl-3 col-xxl-3"><label for="desc" class="form-label">Description</label></div>
+                <div class="col-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9"><input type="text" id="desc" class="form-control"></div>
+            </div>
+
+
+            <div class="d-flex justify-content-center gap-3">
+                <button type="button" class="btn btn-save" id="item-save">Save</button>
+                <button type="button" class="btn btn-update" id="item-update">Update</button>
+                <button type="reset" class="btn btn-reset" id="item-reset">Reset</button>
+            </div>
+        </form>
+
+        <!-------------------------------------------ITEM TABLE------------------------------------>
+        <div class="table-responsive">
+            <table class="table table-bordered text-center">
+                <thead class="table-dark">
+                <tr>
+                    <th scope="col">Item ID</th>
+                    <th scope="col">Item Name</th>
+                    <th scope="col">Unit Price</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Description</th>
+                </tr>
+                </thead>
+                <tbody id="item-tbody"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Main Page Content -->
+<div class="container" id="order-content">
+    <div class="main-content">
+        <div class="id-with-date">
+            <h5 class="text-warning fw-bold mb-4" id="order-id">1</h5>
+            <h5 id="order-date">Date</h5>
+        </div>
+
+        <!-------------------------------------- Order Form ---------------------------------->
+        <form class="mb-5">
+            <div class="row mb-3">
+                <div class="col-0 col-sm-0 col-md-0 col-lg-3 col-xl-3 col-xxl-3"><label class="form-label">Customer</label></div>
+                <div class="col-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                    <select class="form-select">
+                        <option selected disabled>Select Customer</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-0 col-sm-0 col-md-0 col-lg-3 col-xl-3 col-xxl-3"><label class="form-label">Items</label></div>
+                <div class="col-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                    <select class="form-select">
+                        <option selected disabled>Select Item</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-0 col-sm-0 col-md-0 col-lg-3 col-xl-3 col-xxl-3"><label class="form-label">Quantity</label></div>
+                <div class="col-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9"><input type="text" class="form-control" id="quantity"></div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-0 col-sm-0 col-md-0 col-lg-3 col-xl-3 col-xxl-3"><label class="form-label">Description</label></div>
+                <div class="col-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9"><input type="text" class="form-control" id="description"></div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3 col-xxl-3"><label class="form-label">Total Amount</label></div>
+                <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4 col-xxl-4"><label class="form-control-plaintext" id="total-amount">Amount</label></div>
+            </div>
+
+            <div class="d-flex justify-content-center gap-3 btn-set">
+                <button type="button" class="btn btn-save" id="add-order">Add</button>
+                <!-- <button type="button" class="btn btn-update" id="update-order">Update</button>
+                 <button type="button" class="btn btn-delete">Delete</button>-->
+                <button type="reset" class="btn btn-reset" id="reset-order">Reset</button>
+                <button type="button" class="btn btn-history" id="view-history">History</button>
+            </div>
+
+            <div class="d-flex justify-content-center gap-3 second-btn-grp">
+                <button type="button" class="btn btn-order" id="place-order">Place Order</button>
+            </div>
+        </form>
+
+        <!-------------------------------------------ORDER TABLE------------------------------------>
+        <div class="table-responsive">
+            <table class="table table-bordered text-center">
+                <thead class="table-dark">
+                <tr>
+                    <th>Order ID</th>
+                    <th>Item Name</th>
+                    <th>Qty On Hand</th>
+                    <th>Unit Price</th>
+                    <th>Total</th>
+                </tr>
+                </thead>
+                <tbody id="order-tbody"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Main Page Content -->
+<div class="container" id="order-history-content">
+    <div class="main-content">
+        <!-------------------------------------------ORDER HISTORY TABLE------------------------------------>
+        <div class="table-responsive">
+            <table class="table table-bordered text-center" id="order-history-table">
+                <thead class="table-dark">
+                <tr>
+                    <th>Order ID</th>
+                    <th>Order Date</th>
+                    <th>Customer ID</th>
+                    <th>Customer Name</th>
+                    <th>Order Total</th>
+                </tr>
+                </thead>
+                <tbody id="order-history-tbody">
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- User Registration -->
+<div class="container " id="user-content">
+    <h2 class="text-center mb-4">User Registration</h2>
+
+    <form class="card p-4 shadow-sm" id="user-form">
+        <div class="mb-3">
+            <label for="username" class="form-label">User Name</label>
+            <input type="text" class="form-control" id="username" placeholder="Enter user name">
+        </div>
+
+        <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="password" placeholder="Enter password">
+        </div>
+
+        <div class="mb-3">
+            <label for="role" class="form-label">Role</label>
+            <select class="form-select" id="role">
+                <option selected disabled>Select role</option>
+                <option>Admin</option>
+                <option>Cashier</option>
+                <option>Manager</option>
+            </select>
+        </div>
+
+        <div class="d-flex justify-content-between">
+            <button type="button" class="btn btn-order" id="add-user">Register
+            </button>
+        </div>
+    </form>
+</div>
+
+<script src="lib/jquery-3.7.1.min.js"></script>
+<script src="js/Customer.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
+
 <script>
-    const togglePassword = document.getElementById('togglePassword');
-    const passwordField = document.getElementById('password');
+    $("#customer-content").css("display", "none");
+    $("#item-content").css("display", "none");
+    $("#order-content").css("display", "none");
+    $("#order-history-content").css("display", "none");
+    $("#invoice-content").css("display", "none");
+    $("#user-content").css("display", "none");
 
-    togglePassword.addEventListener('click', function () {
-        const type = passwordField.type === 'password' ? 'text' : 'password';
-        passwordField.type = type;
-        this.textContent = type === 'password' ? 'Show' : 'Hide';
-    });
 
-    document.getElementById('login-form').addEventListener('submit', function (event) {
-        event.preventDefault();
+    $("#nav-home").on('click', function () {
+        $("#dashboard-content").css("display", "block");
+        $("#customer-content").css("display", "none");
+        $("#item-content").css("display", "none");
+        $("#order-content").css("display", "none");
+        $("#order-history-content").css("display", "none");
+        $("#invoice-content").css("display", "none");
+        $("#user-content").css("display", "none");
+    })
+    $("#nav-customer").on('click', function () {
+        $("#dashboard-content").css("display", "none");
+        $("#customer-content").css("display", "block");
+        $("#item-content").css("display", "none");
+        $("#order-content").css("display", "none");
+        $("#order-history-content").css("display", "none");
+        $("#invoice-content").css("display", "none");
+        $("#user-content").css("display", "none");
+    })
+    $("#nav-item").on('click', function () {
+        $("#dashboard-content").css("display", "none");
+        $("#customer-content").css("display", "none");
+        $("#item-content").css("display", "block");
+        $("#order-content").css("display", "none");
+        $("#order-history-content").css("display", "none");
+        $("#invoice-content").css("display", "none");
+        $("#user-content").css("display", "none");
+    })
+    $("#nav-order").on('click', function () {
+        $("#dashboard-content").css("display", "none");
+        $("#customer-content").css("display", "none");
+        $("#item-content").css("display", "none");
+        $("#order-content").css("display", "block");
+        $("#order-history-content").css("display", "none");
+        $("#invoice-content").css("display", "none");
+        $("#user-content").css("display", "none");
+    })
+    $("#view-history").on('click', function () {
+        $("#dashboard-content").css("display", "none");
+        $("#customer-content").css("display", "none");
+        $("#item-content").css("display", "none");
+        $("#order-content").css("display", "none");
+        $("#order-history-content").css("display", "block");
+        $("#invoice-content").css("display", "none");
+        $("#user-content").css("display", "none");
+    })
 
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
+    $("#nav-add-user").on('click', function () {
+        $("#dashboard-content").css("display", "none");
+        $("#customer-content").css("display", "none");
+        $("#item-content").css("display", "none");
+        $("#order-content").css("display", "none");
+        $("#order-history-content").css("display", "none");
+        $("#invoice-content").css("display", "none");
+        $("#user-content").css("display", "block");
+    })
 
-        if (username === 'dilini' && password === '1234') {
-            alert('Login Successfully!');
-            window.location.href = 'home.html';
-        }else{
-            alert('Invalid Credentials!');
+    $('#logout-btn').on('click', function () {
+        if (confirm('Are you sure you want to logout?')){
+            window.location.href = 'index.html';
         }
     })
+
 </script>
+
 </body>
 </html>

@@ -215,6 +215,10 @@ table {
     background-color: lightgray;
 }
 
+#search-icon{
+    padding: 0px 2px;
+}
+
 
 
 @media (max-width: 768px) {
