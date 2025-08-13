@@ -211,6 +211,11 @@ table {
     margin-top: 100px;
 }
 
+#user-form{
+    background-color: lightgray;
+}
+
+
 
 @media (max-width: 768px) {
     .popup-box {
@@ -290,4 +295,7 @@ table {
     .main-content {
         padding: 15px;
     }
+
+
+
 }

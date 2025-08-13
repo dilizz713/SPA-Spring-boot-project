@@ -33,6 +33,9 @@
                 <button class="btn btn-outline-light" id="logout-btn">
                     <i class="bi bi-box-arrow-right me-1"></i> Logout
                 </button>
+                <button class="btn btn-outline-light" id="nav-add-user">
+                    <i class="bi bi-person-plus-fill me-1"></i> Add User
+                </button>
             </div>
         </div>
     </div>
@@ -282,6 +285,38 @@
     </div>
 </div>
 
+<!-- User Registration -->
+<div class="container " id="user-content">
+    <h2 class="text-center mb-4">User Registration</h2>
+
+    <form class="card p-4 shadow-sm" id="user-form">
+        <div class="mb-3">
+            <label for="username" class="form-label">User Name</label>
+            <input type="text" class="form-control" id="username" placeholder="Enter user name">
+        </div>
+
+        <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="password" placeholder="Enter password">
+        </div>
+
+        <div class="mb-3">
+            <label for="role" class="form-label">Role</label>
+            <select class="form-select" id="role">
+                <option selected disabled>Select role</option>
+                <option>Admin</option>
+                <option>Cashier</option>
+                <option>Manager</option>
+            </select>
+        </div>
+
+        <div class="d-flex justify-content-between">
+            <button type="button" class="btn btn-order" id="add-user">Register
+            </button>
+        </div>
+    </form>
+</div>
+
 
 <script src="lib/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -306,6 +341,8 @@
     $("#order-content").css("display", "none");
     $("#order-history-content").css("display", "none");
     $("#invoice-content").css("display", "none");
+    $("#user-content").css("display", "none");
+
 
     $("#nav-home").on('click', function () {
         $("#dashboard-content").css("display", "block");
@@ -314,6 +351,7 @@
         $("#order-content").css("display", "none");
         $("#order-history-content").css("display", "none");
         $("#invoice-content").css("display", "none");
+        $("#user-content").css("display", "none");
     })
     $("#nav-customer").on('click', function () {
         $("#dashboard-content").css("display", "none");
@@ -322,6 +360,7 @@
         $("#order-content").css("display", "none");
         $("#order-history-content").css("display", "none");
         $("#invoice-content").css("display", "none");
+        $("#user-content").css("display", "none");
     })
     $("#nav-item").on('click', function () {
         $("#dashboard-content").css("display", "none");
@@ -330,6 +369,7 @@
         $("#order-content").css("display", "none");
         $("#order-history-content").css("display", "none");
         $("#invoice-content").css("display", "none");
+        $("#user-content").css("display", "none");
     })
     $("#nav-order").on('click', function () {
         $("#dashboard-content").css("display", "none");
@@ -338,6 +378,7 @@
         $("#order-content").css("display", "block");
         $("#order-history-content").css("display", "none");
         $("#invoice-content").css("display", "none");
+        $("#user-content").css("display", "none");
     })
     $("#view-history").on('click', function () {
         $("#dashboard-content").css("display", "none");
@@ -346,6 +387,17 @@
         $("#order-content").css("display", "none");
         $("#order-history-content").css("display", "block");
         $("#invoice-content").css("display", "none");
+        $("#user-content").css("display", "none");
+    })
+
+    $("#nav-add-user").on('click', function () {
+        $("#dashboard-content").css("display", "none");
+        $("#customer-content").css("display", "none");
+        $("#item-content").css("display", "none");
+        $("#order-content").css("display", "none");
+        $("#order-history-content").css("display", "none");
+        $("#invoice-content").css("display", "none");
+        $("#user-content").css("display", "block");
     })
 
 
