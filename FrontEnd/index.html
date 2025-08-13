@@ -147,10 +147,10 @@
 
 <div class="container" id="item-content">
     <div class="main-content">
-        <h5 class="text-warning fw-bold mb-4" id="item-id">1</h5>
+        <div id="errorAlertInItem" class="alert alert-danger d-none" role="alert"></div>
 
         <!-------------------------------------- Item Form ---------------------------------->
-        <form class="mb-5">
+        <form class="mb-5" id="item-form">
             <div class="row mb-3">
                 <div class="col-0 col-sm-0 col-md-0 col-lg-3 col-xl-3 col-xxl-3"><label for="item-name" class="form-label">Item Name</label></div>
                 <div class="col-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9"><input type="text" id="item-name" class="form-control"></div>
@@ -176,16 +176,20 @@
             </div>
         </form>
 
+        <div class="mb-3">
+            <input type="text" id="item-search" class="form-control" placeholder="Search by Item Name">
+        </div>
+
         <!-------------------------------------------ITEM TABLE------------------------------------>
         <div class="table-responsive">
             <table class="table table-bordered text-center">
                 <thead class="table-dark">
                 <tr>
-                    <th scope="col">Item ID</th>
                     <th scope="col">Item Name</th>
                     <th scope="col">Unit Price</th>
                     <th scope="col">Quantity</th>
                     <th scope="col">Description</th>
+                    <th class="text-center">Actions</th>
                 </tr>
                 </thead>
                 <tbody id="item-tbody"></tbody>
@@ -321,6 +325,8 @@
 
 <script src="lib/jquery-3.7.1.min.js"></script>
 <script src="js/Customer.js"></script>
+<script src="js/Item.js"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -392,7 +398,7 @@
 
     $('#logout-btn').on('click', function () {
         if (confirm('Are you sure you want to logout?')){
-            window.location.href = 'index.html';
+            window.location.href = 'signin.html';
         }
     })
 

@@ -5,7 +5,9 @@ $(document).ready(function () {
     });
     $('#todayDate').text(formattedDate);
 
-    let currentCustomerId = null; // Track which customer is being edited
+    let currentCustomerId = null;
+
+    $('#customer-update').prop('disabled', true);
 
     function handleApiError(xhr){
         const $alert = $('#errorAlert');
@@ -144,9 +146,12 @@ $(document).ready(function () {
         $('#nic').val(row.find('td:eq(2)').text());
         $('#mobile').val(row.find('td:eq(3)').text());
         $('#email').val(row.find('td:eq(4)').text());
+
+        $('#customer-save').prop('disabled', true);
+        $('#customer-update').prop('disabled', false);
     });
 
-    // Delete Button
+    // Delete Customer
     $('#customer-tbody').on('click', '.delete-btn', function (){
         const row = $(this).closest('tr');
         const customerId = row.data('id');
@@ -174,6 +179,7 @@ $(document).ready(function () {
         clearError();
 
         $('#customer-save').prop('disabled', false);
+        $('#customer-update').prop('disabled', true);
     });
 
     loadTableData();
