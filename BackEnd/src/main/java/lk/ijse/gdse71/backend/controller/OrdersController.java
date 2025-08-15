@@ -1,5 +1,6 @@
 package lk.ijse.gdse71.backend.controller;
 
+import lk.ijse.gdse71.backend.dto.OrderHistoryDTO;
 import lk.ijse.gdse71.backend.dto.OrdersDTO;
 import lk.ijse.gdse71.backend.service.OrdersService;
 import lk.ijse.gdse71.backend.util.APIResponse;
@@ -22,5 +23,11 @@ public class OrdersController {
     public ResponseEntity<APIResponse> saveOrder(@RequestBody OrdersDTO ordersDTO) {
         ordersService.placeOrder(ordersDTO);
         return ResponseEntity.ok(new APIResponse(201 , "Order saved successfully" , null));
+    }
+
+    @GetMapping("getAllOrdersHistory")
+    public ResponseEntity<APIResponse> getAllOrders() {
+        List<OrderHistoryDTO> orders = ordersService.getAllOrdersHistory();
+        return ResponseEntity.ok(new APIResponse(201 , "Orders retrieved successfully" , orders));
     }
 }

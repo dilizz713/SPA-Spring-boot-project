@@ -2,7 +2,7 @@ $(document).ready(function () {
     let orderItems = [];
     let totalAmount = 0;
 
-   //load customers
+    //load customers
     function loadCustomers() {
         $.get('http://localhost:8080/api/v1/customer/getAllCustomers', function (response) {
             const customerSelect = $('#order-content select').eq(0);
@@ -28,7 +28,7 @@ $(document).ready(function () {
         });
     }
 
-    // add items to order table
+    // Add item
     $('#add-order').on('click', function () {
         const customerId = $('#order-content select').eq(0).val();
         const itemSelect = $('#order-content select').eq(1);
@@ -49,27 +49,61 @@ $(document).ready(function () {
         const total = price * qty;
         totalAmount += total;
 
-        orderItems.push({
-            itemId: itemId,
-            qtyOnHand: qty
-        });
+        const newItem = {
+            itemId,
+            itemName,
+            qtyOnHand: qty,
+            price
+        };
+        orderItems.push(newItem);
 
-        $('#order-tbody').append(`
-            <tr>
-            
-                <td>${itemName}</td>
-                <td>${qty}</td>
-                <td>${price.toFixed(2)}</td>
-                <td>${total.toFixed(2)}</td>
-            </tr>
-        `);
-
-        $('#total-amount').text(totalAmount.toFixed(2));
+        renderOrderTable();
         $('#quantity').val('');
-
     });
 
-    //place order
+    // Temp order table
+    function renderOrderTable() {
+        $('#order-tbody').empty();
+        totalAmount = 0;
+        orderItems.forEach((item, index) => {
+            const total = item.price * item.qtyOnHand;
+            totalAmount += total;
+            $('#order-tbody').append(`
+                <tr>
+                    <td>${item.itemName}</td>
+                    <td>${item.qtyOnHand}</td>
+                    <td>${item.price.toFixed(2)}</td>
+                    <td>${total.toFixed(2)}</td>
+                    <td>
+                        <button class="btn btn-sm btn-warning edit-item" data-index="${index}">✏️</button>
+                        <button class="btn btn-sm btn-danger delete-item" data-index="${index}">🗑️</button>
+                    </td>
+                </tr>
+            `);
+        });
+        $('#total-amount').text(totalAmount.toFixed(2));
+    }
+
+    // Edit item
+    $('#order-tbody').on('click', '.edit-item', function () {
+        const index = $(this).data('index');
+        const newQty = parseInt(prompt("Enter new quantity:", orderItems[index].qtyOnHand));
+        if (newQty && newQty > 0) {
+            orderItems[index].qtyOnHand = newQty;
+            renderOrderTable();
+        }
+    });
+
+    // Delete item
+    $('#order-tbody').on('click', '.delete-item', function () {
+        const index = $(this).data('index');
+        if (confirm("Remove this item from order?")) {
+            orderItems.splice(index, 1);
+            renderOrderTable();
+        }
+    });
+
+    // Place order
     $('#place-order').on('click', function () {
         const customerId = $('#order-content select').eq(0).val();
 
@@ -103,7 +137,6 @@ $(document).ready(function () {
         });
     });
 
-   //reset order form
     function resetOrderForm() {
         orderItems = [];
         totalAmount = 0;
@@ -111,7 +144,6 @@ $(document).ready(function () {
         $('#total-amount').text("Amount");
         $('#order-content select').val('');
         $('#quantity').val('');
-        $('#description').val('');
     }
 
     $('#reset-order').on('click', resetOrderForm);

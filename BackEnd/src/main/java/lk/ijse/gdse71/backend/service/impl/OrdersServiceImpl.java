@@ -2,6 +2,7 @@ package lk.ijse.gdse71.backend.service.impl;
 
 import jakarta.transaction.Transactional;
 import lk.ijse.gdse71.backend.dto.OrderDetailsDTO;
+import lk.ijse.gdse71.backend.dto.OrderHistoryDTO;
 import lk.ijse.gdse71.backend.dto.OrdersDTO;
 import lk.ijse.gdse71.backend.entiity.Customer;
 import lk.ijse.gdse71.backend.entiity.Item;
@@ -15,9 +16,11 @@ import lk.ijse.gdse71.backend.service.OrdersService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -70,4 +73,21 @@ public class OrdersServiceImpl implements OrdersService {
         order.setTotalAmount(totalAmount);
         ordersRepository.save(order);
     }
+
+    @Override
+    public List<OrderHistoryDTO> getAllOrdersHistory() {
+        List<Orders> orders = ordersRepository.findAll();
+
+        return orders.stream().map(order ->
+                new OrderHistoryDTO(
+                        order.getId(),
+                        new SimpleDateFormat("yyyy-MM-dd").format(order.getDate()),
+                        order.getCustomer().getId(),
+                        order.getCustomer().getName(),
+                        order.getTotalAmount()
+                )
+        ).collect(Collectors.toList());
+    }
+
+
 }
