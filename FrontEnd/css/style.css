@@ -221,6 +221,7 @@ table {
 
 
 
+
 @media (max-width: 768px) {
     .popup-box {
         flex-direction: column;
@@ -299,6 +300,7 @@ table {
     .main-content {
         padding: 15px;
     }
+
 
 
 
