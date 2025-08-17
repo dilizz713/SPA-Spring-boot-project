@@ -45,6 +45,10 @@ function handleApiError($alertId, xhr, fallback = "An error occurred.") {
     const $alert = $($alertId);
     $alert.removeClass("d-none").empty();
 
+    // reset previous errors
+    $("#customerForm input").removeClass("is-invalid");
+    $("#customerForm .invalid-feedback").text("");
+
     if (xhr?.status === 401 || xhr?.status === 403) {
         swalInfo("Session expired", "Please sign in again.");
         setTimeout(() => redirectToLogin(), 800);
@@ -58,9 +62,18 @@ function handleApiError($alertId, xhr, fallback = "An error occurred.") {
 
         if (apiResponse.data && typeof apiResponse.data === "object") {
             const list = $('<ul class="mt-2 mb-0">');
+
             for (const key in apiResponse.data) {
-                const item = $("<li>").text(`${key}: ${apiResponse.data[key]}`);
+                const errorMessage = apiResponse.data[key];
+
+                // show summary list in alert
+                const item = $("<li>").text(`${key}: ${errorMessage}`);
                 list.append(item);
+
+                // highlight field + show inline error
+                const $field = $(`#${key}`);
+                $field.addClass("is-invalid");
+                $field.siblings(".invalid-feedback").text(errorMessage);
             }
             $alert.append(list);
         }
@@ -68,6 +81,7 @@ function handleApiError($alertId, xhr, fallback = "An error occurred.") {
         $alert.text(fallback);
     }
 }
+
 
 function clearError($alertId) {
     $($alertId).addClass("d-none").empty();
@@ -166,9 +180,30 @@ $(async function () {
     let currentCustomerId = null;
     $("#customer-update").prop("disabled", true);
 
+    function validateCustomerForm() {
+        const name = $("#name").val().trim();
+        const address = $("#address").val().trim();
+        const nic = $("#nic").val().trim();
+        const phone = $("#mobile").val().trim();
+        const email = $("#email").val().trim();
+
+        const nicRegex = /^[0-9]{9}[VvXx]$/;
+        const phoneRegex = /^[0-9]{10}$/;
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (!name) { swalInfo("Validation error", "Name cannot be empty!"); return false; }
+        if (!address) { swalInfo("Validation error", "Address cannot be empty!"); return false; }
+        if (!nic || !nicRegex.test(nic)) { swalInfo("Validation error", "NIC is invalid!"); return false; }
+        if (!phone || !phoneRegex.test(phone)) { swalInfo("Validation error", "Phone must be 10 digits!"); return false; }
+        if (!email || !emailRegex.test(email)) { swalInfo("Validation error", "Email is invalid!"); return false; }
+
+        return true;
+    }
+
+
     function loadCustomerTableData() {
         $.ajax({
-            url: `${API_BASE}/customer/getAllCustomers`,
+            url: "http://localhost:8080/api/v1/customer/getAllCustomers",
             method: "GET",
             dataType: "json",
             success: function (response) {
@@ -204,6 +239,8 @@ $(async function () {
     }
 
     $("#customer-save").on("click", function () {
+        if (!validateCustomerForm())return;
+
         const customerData = {
             name: $("#name").val(),
             address: $("#address").val(),
@@ -213,9 +250,10 @@ $(async function () {
         };
 
         $.ajax({
-            url: `${API_BASE}/customer/saveCustomer`,
+            url: "http://localhost:8080/api/v1/customer/saveCustomer",
             method: "POST",
             data: JSON.stringify(customerData),
+            contentType: "application/json",
             success: function (response) {
                 clearError("#errorAlert");
                 swalSuccess("Saved", response.message || "Customer saved successfully!");
@@ -234,6 +272,7 @@ $(async function () {
             swalInfo("Select a customer", "Please select a customer to update!");
             return;
         }
+        if (!validateCustomerForm())return;
 
         const customerData = {
             id: currentCustomerId,
@@ -245,9 +284,10 @@ $(async function () {
         };
 
         $.ajax({
-            url: `${API_BASE}/customer/updateCustomer`,
+            url: "http://localhost:8080/api/v1/customer/updateCustomer",
             method: "PUT",
             data: JSON.stringify(customerData),
+            contentType: "application/json",
             success: function (response) {
                 clearError("#errorAlert");
                 swalSuccess("Updated", response.message || "Customer updated successfully!");
@@ -315,6 +355,7 @@ $(async function () {
         $("#customer-save").prop("disabled", false);
         $("#customer-update").prop("disabled", true);
     });
+
 
     loadCustomerTableData();
 
@@ -685,7 +726,7 @@ $(async function () {
 
     $(document).ready(function() {
         loadOrderHistory();
-        setInterval(loadHomePageData, 1000);
+       loadHomePageData();
         loadCustomers();
         loadItems();
     });

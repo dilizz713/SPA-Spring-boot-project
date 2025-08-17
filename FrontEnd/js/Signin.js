@@ -12,7 +12,7 @@ $.ajaxSetup({
 
 async function validateSession() {
     try {
-        const res = await $.ajax({ url: `${AUTH_BASE}/validate`, method: "GET" });
+        const res = await $.ajax({ url: "http://localhost:8080/api/v1/auth/validate", method: "GET" });
 
         const d = res?.data;
         if (d?.userName && d?.role) {
@@ -37,8 +37,9 @@ $(function () {
 
         try {
             await $.ajax({
-                url: `${AUTH_BASE}/login`,
+                url: "http://localhost:8080/api/v1/auth/login",
                 method: "POST",
+                contentType: "application/json",
                 data: JSON.stringify({ username, password })
             });
 
@@ -66,7 +67,6 @@ $(function () {
             if (xhr?.status === 401 || xhr?.status === 403) {
                 msg = "Username or password incorrect.";
             } else if (xhr?.status === 404 || String(msg).toLowerCase().includes("not found")) {
-                // 🚨 Instead of redirecting to signup, show info message
                 if (window.Swal) {
                     Swal.fire({
                         title: "User not found",

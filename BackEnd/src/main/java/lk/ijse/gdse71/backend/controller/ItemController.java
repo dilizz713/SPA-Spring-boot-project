@@ -1,5 +1,7 @@
 package lk.ijse.gdse71.backend.controller;
 
+import jakarta.validation.Valid;
+import lk.ijse.gdse71.backend.dto.CustomerDTO;
 import lk.ijse.gdse71.backend.dto.ItemDTO;
 import lk.ijse.gdse71.backend.entiity.Item;
 import lk.ijse.gdse71.backend.repository.ItemRepository;
@@ -18,29 +20,31 @@ import java.util.List;
 @CrossOrigin
 @Slf4j
 public class ItemController {
-   private final ItemService itemService;
+    private final ItemService itemService;
 
-   @PostMapping("saveItem")
-   public ResponseEntity<APIResponse> saveItem(@RequestBody ItemDTO itemDTO) {
+    @PostMapping("saveItem")
+    public ResponseEntity<APIResponse> saveItem(@Valid @RequestBody ItemDTO itemDTO) {
         itemService.save(itemDTO);
-        return ResponseEntity.ok(new APIResponse(201 , "Item saved successfully" , null));
-   }
+        return ResponseEntity.ok(new APIResponse(201, "Item saved successfully", null));
+    }
 
-   @PutMapping("updateItem")
-   public ResponseEntity<APIResponse> updateItem(@RequestBody ItemDTO itemDTO) {
-       itemService.update(itemDTO);
-       return ResponseEntity.ok(new APIResponse(200 , "Item updated successfully" , null));
-   }
+    @PutMapping("updateItem")
+    public ResponseEntity<APIResponse> updateItem(@Valid @RequestBody ItemDTO itemDTO) {
+        itemService.update(itemDTO);
+        return ResponseEntity.ok(new APIResponse(200, "Item updated successfully", null));
+    }
 
-   @DeleteMapping("deleteItem/{id}")
-   public ResponseEntity<APIResponse> deleteItem(@PathVariable Integer id) {
-       itemService.delete(id);
-       return ResponseEntity.ok(new APIResponse(200 , "Item deleted successfully" , null));
-   }
+    @DeleteMapping("deleteItem/{id}")
+    public ResponseEntity<APIResponse> deleteItem(@PathVariable Integer id) {
+        itemService.delete(id);
+        return ResponseEntity.ok(new APIResponse(200, "Item deleted successfully", null));
+    }
 
-   @GetMapping("getAllItems")
+    @GetMapping("getAllItems")
     public ResponseEntity<APIResponse> getAllItems() {
-       List<ItemDTO> items = itemService.getAll();
-       return ResponseEntity.ok(new APIResponse(200 , "Items retrieved successfully" , items));
-   }
+        List<ItemDTO> items = itemService.getAll();
+        return ResponseEntity.ok(new APIResponse(200, "Items retrieved successfully", items));
+    }
+
+
 }

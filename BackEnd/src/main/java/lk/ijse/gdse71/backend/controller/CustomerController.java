@@ -1,5 +1,6 @@
 package lk.ijse.gdse71.backend.controller;
 
+import jakarta.validation.Valid;
 import lk.ijse.gdse71.backend.dto.CustomerDTO;
 import lk.ijse.gdse71.backend.entiity.Customer;
 import lk.ijse.gdse71.backend.service.CustomerService;
@@ -22,13 +23,13 @@ public class CustomerController {
     private final CustomerService customerService;
 
     @PostMapping("saveCustomer")
-    public ResponseEntity<APIResponse> saveCustomer(@RequestBody CustomerDTO customerDTO) {
+    public ResponseEntity<APIResponse> saveCustomer(@Valid @RequestBody CustomerDTO customerDTO) {
         customerService.saveCustomer(customerDTO);
         return new ResponseEntity<>(new APIResponse(201,"Customer Saved Successfully" , true), HttpStatus.CREATED);
     }
 
     @PutMapping("updateCustomer")
-    public ResponseEntity<APIResponse> updateCustomer(@RequestBody CustomerDTO customerDTO) {
+    public ResponseEntity<APIResponse> updateCustomer(@Valid @RequestBody CustomerDTO customerDTO) {
         customerService.updateCustomer(customerDTO);
         return new ResponseEntity<>(new APIResponse(200,"Customer Updated Successfully" , true), HttpStatus.OK);
     }

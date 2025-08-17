@@ -29,7 +29,7 @@ $(document).ready(function () {
             }),
             success: function (response) {
                 alert(response.message);
-                $("form")[0].reset();
+                $("#user-form")[0].reset();
               //  window.location.href = "index.html";
             },
             error: function (xhr) {
