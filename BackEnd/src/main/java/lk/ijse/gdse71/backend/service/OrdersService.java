@@ -10,4 +10,6 @@ public interface OrdersService {
 
 
     List<OrderHistoryDTO> getAllOrdersHistory();
+
+    Long getTodayOrdersCount();
 }

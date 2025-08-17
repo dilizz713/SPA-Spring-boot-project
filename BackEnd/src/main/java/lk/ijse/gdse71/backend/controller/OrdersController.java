@@ -28,6 +28,12 @@ public class OrdersController {
     @GetMapping("getAllOrdersHistory")
     public ResponseEntity<APIResponse> getAllOrders() {
         List<OrderHistoryDTO> orders = ordersService.getAllOrdersHistory();
-        return ResponseEntity.ok(new APIResponse(201 , "Orders retrieved successfully" , orders));
+        return ResponseEntity.ok(new APIResponse(200 , "Orders retrieved successfully" , orders));
+    }
+
+    @GetMapping("getTodayOrdersCount")
+    public ResponseEntity<APIResponse> getTodayOrdersCount() {
+        Long todayOrdersCount = ordersService.getTodayOrdersCount();
+        return ResponseEntity.ok(new APIResponse(200 , "Orders count get successfully" , todayOrdersCount));
     }
 }

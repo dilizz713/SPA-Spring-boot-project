@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -87,6 +88,15 @@ public class OrdersServiceImpl implements OrdersService {
                         order.getTotalAmount()
                 )
         ).collect(Collectors.toList());
+    }
+
+    @Override
+    public Long getTodayOrdersCount() {
+        LocalDate today = LocalDate.now();
+        Date startOfDay = java.sql.Date.valueOf(today);
+        Date endOfDay = java.sql.Date.valueOf(today.plusDays(1));
+
+        return ordersRepository.countOrdersByDateRange(startOfDay, endOfDay);
     }
 
 

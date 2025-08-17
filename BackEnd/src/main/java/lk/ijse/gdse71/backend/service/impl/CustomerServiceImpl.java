@@ -67,4 +67,9 @@ public class CustomerServiceImpl implements CustomerService {
         }
         return modelMapper.map(customers, new TypeToken<List<CustomerDTO>>(){}.getType());
     }
+
+    @Override
+    public Long getTotalCustomersCount() {
+        return customerRepository.count();
+    }
 }

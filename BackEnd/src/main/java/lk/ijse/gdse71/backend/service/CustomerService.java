@@ -12,4 +12,6 @@ public interface CustomerService {
     void deleteCustomer(Integer id);
 
     List<CustomerDTO> getAllCustomers();
+
+    Long getTotalCustomersCount();
 }

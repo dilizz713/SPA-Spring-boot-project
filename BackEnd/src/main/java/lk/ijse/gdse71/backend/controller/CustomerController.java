@@ -45,5 +45,11 @@ public class CustomerController {
         return new ResponseEntity<>(new APIResponse(200,"Customer List  Successfully" , customerDTOS), HttpStatus.OK);
     }
 
+    @GetMapping("customerCount")
+    public ResponseEntity<APIResponse> getTotalCustomers() {
+        Long totalCustomers = customerService.getTotalCustomersCount();
+        return new ResponseEntity<>(new APIResponse(200,"Customer Count Get  Successfully" , totalCustomers), HttpStatus.OK);
+    }
+
 
 }
