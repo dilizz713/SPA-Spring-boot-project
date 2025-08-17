@@ -605,8 +605,12 @@ $(async function () {
                 resetOrderForm();
             },
             error: function (xhr) {
-                console.error(xhr);
-                alert("Error placing order.");
+                if (xhr.status === 409) {
+                    alert(xhr.responseJSON?.message || "Not enough stock for some items!");
+                } else {
+                    alert("Error placing order.");
+                }
+
             }
         });
     });
@@ -621,6 +625,7 @@ $(async function () {
     }
 
     $('#reset-order').on('click', resetOrderForm);
+
 
 
     /* ------------------------------ Orders History ------------------------------ */

@@ -23,4 +23,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<APIResponse> resourceAlreadyExists(ResourceAlreadyExists e) {
         return new ResponseEntity<>(new APIResponse(409, e.getMessage() ,null ), HttpStatus.CONFLICT);
     }
+
+    @ExceptionHandler(NotEnoughQuantityException.class)
+    public ResponseEntity<APIResponse> notEnoughQty(NotEnoughQuantityException e){
+        return new ResponseEntity<>(new APIResponse(409, e.getMessage() ,null ), HttpStatus.CONFLICT);
+    }
 }

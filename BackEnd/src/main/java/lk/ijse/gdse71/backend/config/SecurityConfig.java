@@ -35,8 +35,9 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/v1/auth/**").permitAll()
-                        .requestMatchers("/api/v1/customer/customerCount").permitAll()
-                        .requestMatchers("/api/v1/orders/getTodayOrdersCount").permitAll()
+                        .requestMatchers("/api/v1/customer/**").permitAll()
+                        .requestMatchers("/api/v1/item/**").permitAll()
+                        .requestMatchers("/api/v1/orders/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

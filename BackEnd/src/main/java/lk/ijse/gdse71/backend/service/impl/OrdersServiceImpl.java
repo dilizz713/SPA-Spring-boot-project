@@ -8,6 +8,7 @@ import lk.ijse.gdse71.backend.entiity.Customer;
 import lk.ijse.gdse71.backend.entiity.Item;
 import lk.ijse.gdse71.backend.entiity.OrderDetails;
 import lk.ijse.gdse71.backend.entiity.Orders;
+import lk.ijse.gdse71.backend.exception.NotEnoughQuantityException;
 import lk.ijse.gdse71.backend.exception.ResourceNotFoundException;
 import lk.ijse.gdse71.backend.repository.CustomerRepository;
 import lk.ijse.gdse71.backend.repository.ItemRepository;
@@ -51,7 +52,7 @@ public class OrdersServiceImpl implements OrdersService {
 
             int newQty = item.getQuantity() - orderDetailsDTO.getQtyOnHand();
             if(newQty < 0){
-                throw new RuntimeException("Not enough qty" + item.getItemName());
+                throw new NotEnoughQuantityException("Not enough qty : " + item.getItemName());
 
             }
             item.setQuantity(newQty);
