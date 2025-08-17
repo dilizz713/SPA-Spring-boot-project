@@ -51,5 +51,11 @@ public class CustomerController {
         return new ResponseEntity<>(new APIResponse(200,"Customer Count Get  Successfully" , totalCustomers), HttpStatus.OK);
     }
 
+    @GetMapping("search/{keyword}")
+    public ResponseEntity<APIResponse> searchCustomer(@PathVariable("keyword") String keyword){
+        List<CustomerDTO> customerDTOS =  customerService.getAllCustomersByKeyword(keyword);
+        return ResponseEntity.ok(new APIResponse(200,"Search Successfully",customerDTOS));
+    }
+
 
 }

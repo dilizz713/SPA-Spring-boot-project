@@ -14,4 +14,6 @@ public interface CustomerService {
     List<CustomerDTO> getAllCustomers();
 
     Long getTotalCustomersCount();
+
+    List<CustomerDTO> getAllCustomersByKeyword(String keyword);
 }

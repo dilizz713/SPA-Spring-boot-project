@@ -72,4 +72,14 @@ public class CustomerServiceImpl implements CustomerService {
     public Long getTotalCustomersCount() {
         return customerRepository.count();
     }
+
+    @Override
+    public List<CustomerDTO> getAllCustomersByKeyword(String keyword) {
+        List<Customer> customers = customerRepository.findByNicContainingIgnoreCaseOrNameContainingIgnoreCaseOrEmailContainingIgnoreCase(keyword , keyword , keyword);
+        if(customers.isEmpty()){
+            throw new ResourceNotFoundException("This Customer does not exist.");
+        }else {
+           return modelMapper.map(customers, new TypeToken<List<CustomerDTO>>(){}.getType());
+        }
+    }
 }
