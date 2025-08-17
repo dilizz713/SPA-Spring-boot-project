@@ -187,7 +187,7 @@ $(async function () {
         const phone = $("#mobile").val().trim();
         const email = $("#email").val().trim();
 
-        const nicRegex = /^[0-9]{9}[VvXx]$/;
+        const nicRegex = /^(?:[0-9]{9}[VvXx]|[0-9]{12})$/;
         const phoneRegex = /^[0-9]{10}$/;
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -400,7 +400,30 @@ $(async function () {
         });
     }
 
+    function validateItemForm() {
+        const name = $("#item-name").val().trim();
+        const price = $("#price").val().trim();
+        const qty = $("#qty").val().trim();
+
+        const qtyRegex = /^[0-9]+$/;
+
+        if (!name) {
+            swalInfo("Validation error", "Item name is required!");
+            return false;
+        }
+        if (!price) {
+            swalInfo("Validation error", "Price must be a valid number (max 2 decimal places).");
+            return false;
+        }
+        if (!qty || !qtyRegex.test(qty)) {
+            swalInfo("Validation error", "Quantity must be a positive integer.");
+            return false;
+        }
+        return true;
+    }
+
     $("#item-save").on("click", function () {
+        if (!validateItemForm())return;
         const itemsData = {
             itemName: $("#item-name").val(),
             price: $("#price").val(),
@@ -409,9 +432,10 @@ $(async function () {
         };
 
         $.ajax({
-            url: `${API_BASE}/item/saveItem`,
+            url: "http://localhost:8080/api/v1/item/saveItem",
             method: "POST",
             data: JSON.stringify(itemsData),
+            contentType: "application/json",
             success: function (response) {
                 clearError("#errorAlertInItem");
                 swalSuccess("Saved", response.message || "Item saved successfully!");
@@ -431,6 +455,8 @@ $(async function () {
             return;
         }
 
+        if (!validateItemForm()) {return;}
+
         const itemsData = {
             id: currentItemId,
             itemName: $("#item-name").val(),
@@ -440,9 +466,10 @@ $(async function () {
         };
 
         $.ajax({
-            url: `${API_BASE}/item/updateItem`,
+            url: "http://localhost:8080/api/v1/item/updateItem",
             method: "PUT",
             data: JSON.stringify(itemsData),
+            contentType: "application/json",
             success: function (response) {
                 clearError("#errorAlertInItem");
                 swalSuccess("Updated", response.message || "Item updated successfully!");

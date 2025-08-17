@@ -1,9 +1,6 @@
 package lk.ijse.gdse71.backend.dto;
 
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.*;
 import lombok.*;
 
 @AllArgsConstructor
@@ -16,12 +13,11 @@ public class ItemDTO {
     @NotBlank(message = "Item name is required")
     private String itemName;
 
-    @NotBlank(message = "Price is required")
-    @Pattern(regexp = "^[0-9]+(\\.[0-9]{1,2})?$", message = "Price must be a valid number (max 2 decimal places)")
+    @NotNull(message = "Price is required")
     private Double price;
 
-    @NotBlank(message = "Quantity is required")
-    @Pattern(regexp = "^[0-9]+$", message = "Quantity must be a positive integer")
+    @NotNull(message = "Quantity is required")
+    @Min(value = 1, message = "Quantity must be at least 1")
     private Integer quantity;
 
     private String description;
